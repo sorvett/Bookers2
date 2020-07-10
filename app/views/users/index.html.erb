@@ -18,10 +18,18 @@
         			<th>introduction</th>
         			<th><%=@user.introduction%></th>
         		</tr>
+             <tr>
+             <th><%= "follows: #{@user.followers.count}" %></th>
+             </tr>
+             <tr>
+             <th><%= "followers: #{@user.followee.count}" %></th>
+             </tr>
         	   </tbody>
             </table>
             <div class="row">
-        	<%= link_to "", edit_user_path(current_user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench"%>
+        	  <%= link_to "", edit_user_path(current_user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench"%>
+                       <% User.all.where.not(id: current_user.id).each do |user| %>
+              <% end %>
             </div>
 
             <h2>New book</h2>
@@ -58,6 +66,15 @@
                 <tbody>
                 <td> <%= attachment_image_tag user, :profile_image, :fill, 60, 60, format: 'jpeg', class: "pull-left profile-img", fallback: "no_image.jpg" %></td>
                 <td><%=user.name%></td>
+                <td><%= "フォロー数: #{@user.followers.count}" %></td>
+                <td><%= "フォロワー数: #{@user.followee.count}" %></td>
+                <td>
+                  <% if current_user.following?(user) %>
+                    <%= link_to 'フォロー外す', unfollow_path(user.id) ,method: :POST %>
+                  <% else %>
+                    <%= link_to 'フォローする', follow_path(user.id) ,method: :POST %>
+                  <% end %>
+                </td>
                <td><%= link_to "Show" , user_path(user.id) %></td>
             </tbody>
             <%end%>

@@ -17,13 +17,29 @@
             			<th><%=@user.introduction%></th>
 
             		</tr>
+                    <tr>
+                        <th>
+                        <%= "follows: #{@user.followers.count}" %>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <%= "followers: #{@user.followee.count}" %>
+                        </th>
+                    </tr>
             	</tbody>
             </table>
             <div class="row">
+
         	<p><%= link_to "", edit_user_path(current_user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench"%></p>
             </div>
-
-
+            <% unless @user == current_user %>
+              <% if current_user.following?(@user) %>
+                <%= link_to 'フォロー外す', unfollow_path(@user), method: :POST %>
+              <% else %>
+                <%= link_to 'フォローする', follow_path(@user), method: :POST %>
+              <% end %>
+            <% end %>
         <h2>New book</h2>
         <%= form_for(@book) do |f| %>
          <% if @book.errors.any? %>
@@ -40,7 +56,9 @@
             <%= f.text_area :body %>
             <%= f.submit 'Create Book' %>
         <% end %>
-    </div>
+
+         </div>
+
 
          <div class="col-xs-9">
          <h1>Books</h1>
@@ -60,7 +78,7 @@
         <td><%= book.body %></td>
         </tbody>
         <%end%>
-        
+
         </tr>
         </table>
         </div>

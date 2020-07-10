@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_08_103053) do
+ActiveRecord::Schema.define(version: 2020_07_09_090823) do
 
-  create_table "bookcomments", force: :cascade do |t|
+  create_table "book_comments", force: :cascade do |t|
     t.string "content"
     t.integer "user_id"
     t.integer "book_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_bookcomments_on_book_id"
-    t.index ["user_id"], name: "index_bookcomments_on_user_id"
+    t.index ["book_id"], name: "index_book_comments_on_book_id"
+    t.index ["user_id"], name: "index_book_comments_on_user_id"
   end
 
   create_table "books", force: :cascade do |t|
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 2020_07_08_103053) do
   create_table "favorites", force: :cascade do |t|
     t.integer "user_id"
     t.integer "book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "relationships", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followed_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
